@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ArticlProject.Core.AuthorPost>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 style="font-family:Cairo">بيانات المشاركات</h1>
+
+<p style="font-family:Cairo">
+    <a asp-action="Create">مشاركة جديدة</a>
+</p>
+<br />
+<form method="get" asp-action="Search">
+    <input type="search" name="SearchItem" class="search-field" />
+    <input type="submit" value="بحث" class="btn-primary" />
+</form>
+<br />
+<table class="table table-striped hover">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedDate)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostDescription)
+                </td>
+                <td>
+                    <img src="~/Images/@item.PostImageUrl" class="rounded-circle" width="50" height="50" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddedDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">تفاصيل</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{ if (Model.ToList().Count < 10)
+    {
+        int id = 0;
+        <a asp-action="Index" asp-route-id="@id">الصفحة الاولى</a> ;
+    }
+    else
+    {
+        <a asp-action="Index" asp-route-id="@Model.ToList().Last().Id">التالي</a> ;
+    }
+}
